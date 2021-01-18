@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "718217825839",
+    "project_id": "daadroid-81494",
+    "storage_bucket": "daadroid-81494.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:718217825839:android:087dbced6d22e044ba40da",
+        "android_client_info": {
+          "package_name": "com.example.daandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "718217825839-4npdtv93ak0os14lc6ii15a3kgt36s20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHj4Acg5vNs0s8VmSZBEuGwqzA0jlFkW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "718217825839-4npdtv93ak0os14lc6ii15a3kgt36s20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".LoginActivity"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo"/>
+    <TextView
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ChatApp"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_200"
+        android:gravity="center_horizontal"
+
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Email"
+        android:textSize="28sp"
+        android:textColor="@color/purple_200"
+
+        android:id= "@+id/email"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Mật khẩu"
+        android:textSize="25sp"
+        android:inputType="textPassword"
+        android:id= "@+id/password"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="80dp"
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"
+        android:id="@+id/login"
+        android:backgroundTint="@color/purple_200"
+        android:text="Đăng nhập" />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linkregister"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:textColor="#0018B3"
+        android:textSize="18sp"
+        android:text="Chưa có mật khẩu?  Đăng kí ngay"/>
+</LinearLayout>
