@@ -4,11 +4,13 @@ public class User {
     private String username;
     private String id;
     private String ImageURL;
+    private String Status;
 
-    public User(String username, String id, String imageURL) {
+    public User(String username, String id, String imageURL,String status) {
         this.username = username;
         this.id = id;
         ImageURL = imageURL;
+        this.Status = status;
     }
     public User(){}
 
@@ -26,6 +28,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 
     public String getImageURL() {

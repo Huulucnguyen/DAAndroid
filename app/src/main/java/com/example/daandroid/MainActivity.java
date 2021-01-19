@@ -9,7 +9,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.Menu;
@@ -41,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.ref.Reference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,13 +54,16 @@ public class MainActivity extends AppCompatActivity {
     private TextView username;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
+    private CircleImageView status_on;
+    private CircleImageView status_off;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
 
+        status_on = findViewById(R.id.status_on);
+        status_off = findViewById(R.id.status_off);
         username = findViewById(R.id.username);
         profile_image = findViewById(R.id.profile_picture);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,9 +79,19 @@ public class MainActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.drawable.resource_default);
                 }
                 else{
-                    Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
+                    final Context context = MainActivity.this;
+                        if (!MainActivity.this.isFinishing())
+                            Glide.with(MainActivity.this).load(user.getImageURL()).into(profile_image);
                 }
+                if(user.getStatus().equals("online")){
+                    status_on.setVisibility(View.VISIBLE);
+                    status_off.setVisibility(View.GONE);
+                }
+                else{
+                    status_on.setVisibility(View.GONE);
+                    status_off.setVisibility(View.VISIBLE);
 
+                }
             }
 
             @Override
@@ -82,10 +99,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,PopupActivity.class);
+                Intent intent = new Intent(MainActivity.this,PopupActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             }
@@ -159,5 +181,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private  void status(String status){
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
+    }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context context;
     private List<User> aUsers;
+    private boolean isOnl;
 
     @NonNull
     @Override
@@ -40,6 +41,21 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         else{
             Glide.with(context).load(user.getImageURL()).into(holder.profile_image);
         }
+        if(isOnl){
+            if(user.getStatus().equals("online")){
+                holder.status_on.setVisibility(View.VISIBLE);
+                holder.status_off.setVisibility(View.GONE);
+            }
+            else{
+                holder.status_on.setVisibility(View.GONE);
+                holder.status_off.setVisibility(View.VISIBLE);
+
+            }
+        }
+        else{
+            holder.status_on.setVisibility(View.GONE);
+            holder.status_off.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,18 +71,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return aUsers.size();
     }
 
-    public UserAdapter(Context context, List<User> aUsers) {
+    public UserAdapter(Context context, List<User> aUsers, boolean isOnl) {
         this.context = context;
         this.aUsers = aUsers;
+        this.isOnl = isOnl;
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView username;
         private ImageView profile_image;
+        private ImageView status_on;
+        private ImageView status_off;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.username = itemView.findViewById(R.id.friend_username);
             this.profile_image = itemView.findViewById(R.id.friend_image);
+            this.status_on = itemView.findViewById(R.id.status_on);
+            this.status_off = itemView.findViewById(R.id.status_off);
         }
     }
 }

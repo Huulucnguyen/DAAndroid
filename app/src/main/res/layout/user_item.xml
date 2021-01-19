@@ -16,4 +16,21 @@
         android:layout_toRightOf="@id/friend_image"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="#808080"
+        android:visibility="gone"
+        android:id="@+id/status_off"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="#15AE4C"
+        android:visibility="gone"
+        android:id="@+id/status_on"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"/>
+
 </RelativeLayout>

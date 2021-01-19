@@ -9,62 +9,90 @@
     android:layout_height="match_parent"
     tools:context=".PopupActivity">
 
-        <TextView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:text="Xong"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true"
-            android:id="@+id/profile_picture"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/username"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-
-            />
-        <LinearLayout
-            android:paddingTop="20dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-                <RelativeLayout
+            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:text="Xong"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:clickable="true"
+                    android:id="@+id/profile_picture"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="30dp"
+                    android:visibility="gone"
+                    android:layout_height="30dp"
+                    android:src="#808080"
+                    android:id="@+id/status_off"
+                    android:layout_marginLeft="230dp"
+                    android:layout_alignBottom="@+id/profile_picture"
+                    />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:visibility="gone"
+                android:layout_height="30dp"
+                android:src="#15AE4C"
+                android:id="@+id/status_on"
+                android:layout_marginLeft="230dp"
+                android:layout_alignBottom="@+id/profile_picture"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="username"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/profile_picture"
+                />
 
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/logout_image"
+
                             android:layout_marginLeft="10dp"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp" />
 
                         <TextView
                             android:id="@+id/txtpopup"
                             android:layout_width="wrap_content"
+                            android:textSize="18sp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="45dp"
+                            android:layout_marginLeft="5dp"
                             android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
                             android:text="Đăng xuất"
-                            android:layout_marginTop="3dp" />
-                </RelativeLayout>
-        </LinearLayout>
+                            android:textStyle="bold"
+                             />
 
+        </LinearLayout>
 
 
 </LinearLayout>

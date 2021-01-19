@@ -6,32 +6,60 @@
     android:layout_height="match_parent"
     android:background="#e6e6e6"
     tools:context=".MessageActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:id="@+id/friend_toolbar"
-        android:background="@color/purple_200"
-        android:layout_height="70dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/mess_friend_username"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginStart="160dp"
-            android:textColor="@color/white"
-            android:text="Username" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginLeft="10dp"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:src="@mipmap/ic_launcher"
-            android:id="@+id/mess_friend_picture"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/friend_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/purple_200">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/mess_friend_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/mess_friend_picture"
+                android:layout_marginEnd="10dp"
+                android:text="Username"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mess_friend_picture"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/ic_launcher" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/status_on"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:src="#15AE4C" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/status_off"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:visibility="gone"
+                android:layout_marginRight="8dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:src="#808080" />
+        </RelativeLayout>
 
 
 
     </androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

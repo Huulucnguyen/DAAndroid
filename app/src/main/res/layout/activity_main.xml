@@ -11,7 +11,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:background="@color/purple_200"
         >
         <androidx.appcompat.widget.Toolbar
@@ -19,23 +19,49 @@
             android:layout_height="wrap_content"
 
             >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:id="@+id/profile_picture"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@color/white"
+                    android:clickable="true"
+                    android:id="@+id/profile_picture"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="#808080"
+                    android:visibility="gone"
+                    android:id="@+id/status_off"
+                    android:layout_marginLeft="50dp"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/username"
-                android:layout_marginLeft="25dp"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:text="Username"
-                android:layout_marginStart="25dp"/>
+                    android:layout_marginTop="53dp"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="#15AE4C"
+                    android:visibility="gone"
+                    android:id="@+id/status_on"
+                    android:layout_marginLeft="50dp"
+
+                    android:layout_marginTop="53dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/username"
+
+                    android:layout_toRightOf="@+id/profile_picture"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:text="Username"
+                    android:layout_marginStart="10dp"/>
+
+            </RelativeLayout>
+
 
 
         </androidx.appcompat.widget.Toolbar>

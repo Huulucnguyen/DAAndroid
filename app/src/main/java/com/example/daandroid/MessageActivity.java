@@ -47,7 +47,8 @@ public class MessageActivity extends AppCompatActivity {
     FirebaseUser fUser;
     MessageAdapter messageAdapter;
     List<Chats> lChats;
-
+    private CircleImageView status_on;
+    private CircleImageView status_off;
     RecyclerView recyclerView;
     Intent intent;
     @Override
@@ -75,6 +76,8 @@ public class MessageActivity extends AppCompatActivity {
         textsend = findViewById(R.id.input_text);
         Bundle extra = intent.getExtras();
         String user_id = extra.getString("userid");
+        status_on = findViewById(R.id.status_on);
+        status_off = findViewById(R.id.status_off);
 
         btnsend.setVisibility(View.GONE);
         TextWatcher edittext = new TextWatcher() {
@@ -122,6 +125,15 @@ public class MessageActivity extends AppCompatActivity {
                     Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
                 }
                 readMessage(fUser.getUid(),user_id,user.getImageURL());
+                if(user.getStatus().equals("online")){
+                    status_on.setVisibility(View.VISIBLE);
+                    status_off.setVisibility(View.GONE);
+                }
+                else{
+                    status_on.setVisibility(View.GONE);
+                    status_off.setVisibility(View.VISIBLE);
+
+                }
             }
 
             @Override
@@ -203,6 +215,25 @@ public class MessageActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
+    }
+    private  void status(String status){
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        reference.updateChildren(hashMap);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 
 }

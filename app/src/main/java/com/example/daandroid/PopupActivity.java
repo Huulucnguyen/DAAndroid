@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.content.IntentCompat;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -67,11 +69,13 @@ public class PopupActivity extends Activity {
     private StorageReference storageReference;
     private static final int IMAGE_REQUEST = 1;
     private StorageTask uploadTask;
+    private CircleImageView status_on;
+    private CircleImageView status_off;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
-
 
 
 
@@ -102,8 +106,8 @@ public class PopupActivity extends Activity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(PopupActivity.this,LoginActivity.class);
+
                 startActivity(intent);
-                finish();
 
             }
         });
@@ -113,7 +117,6 @@ public class PopupActivity extends Activity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(PopupActivity.this,LoginActivity.class);
                 startActivity(intent);
-                finish();
 
             }
         });
@@ -136,9 +139,10 @@ public class PopupActivity extends Activity {
                     profile_image.setImageResource(R.drawable.resource_default);
                 }
                 else{
+
+                    if (!PopupActivity.this.isFinishing())
                     Glide.with(PopupActivity.this).load(user.getImageURL()).into(profile_image);
                 }
-
             }
 
             @Override
@@ -202,21 +206,7 @@ public class PopupActivity extends Activity {
                     }
                 });
 
-//        riversRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Task<Uri> downloadUri = taskSnapshot.getStorage().getDownloadUrl();
-//                if(downloadUri.isSuccessful()){
-//                    String path = downloadUri.getResult().toString();
-//
-//                    reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
-//                    HashMap<String,Object>  map = new HashMap<>();
-//                    map.put("imageURL",path);
-//                    reference.updateChildren(map);
-//                }
-//
-//            }
-//        });
+
         Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot,Task<Uri>>() {
             @Override
             public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
@@ -267,6 +257,14 @@ public class PopupActivity extends Activity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 
+    }
+
+    private  void status(String status){
+        reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        reference.updateChildren(hashMap);
     }
 
 
