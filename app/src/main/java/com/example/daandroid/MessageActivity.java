@@ -73,7 +73,7 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
-        status("online");
+
         String sender_id = fUser.getUid();
         profile_image = findViewById(R.id.mess_friend_picture);
         username = findViewById(R.id.mess_friend_username);
@@ -268,6 +268,41 @@ public class MessageActivity extends AppCompatActivity {
 
 
     }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        status("online");
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        status("online");
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        reference.removeEventListener(valueEventListener);
+//        status("offline");
+//
+//    }
+//
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        reference.removeEventListener(valueEventListener);
+//        status("offline");
+//
+//    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+            status("online");
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -278,17 +313,8 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        reference.removeEventListener(valueEventListener);
-        status("online");
 
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        reference.removeEventListener(valueEventListener);
-        status("online");
+            status("offline");
 
     }
 }

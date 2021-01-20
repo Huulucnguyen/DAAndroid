@@ -53,21 +53,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             Glide.with(context).load(user.getImageURL()).into(holder.profile_image);
         }
             lassMessage(user.getId(),holder.lastmessage);
-        if(isOnl){
-            if(user.getStatus().equals("online")){
-                holder.status_on.setVisibility(View.VISIBLE);
-                holder.status_off.setVisibility(View.GONE);
+        if(user!=null){
+            if(isOnl){
+                if(user.getStatus().equals("online")){
+                    holder.status_on.setVisibility(View.VISIBLE);
+                    holder.status_off.setVisibility(View.GONE);
+                }
+                else{
+                    holder.status_on.setVisibility(View.GONE);
+                    holder.status_off.setVisibility(View.VISIBLE);
+
+                }
             }
             else{
                 holder.status_on.setVisibility(View.GONE);
-                holder.status_off.setVisibility(View.VISIBLE);
-
+                holder.status_off.setVisibility(View.GONE);
             }
         }
-        else{
-            holder.status_on.setVisibility(View.GONE);
-            holder.status_off.setVisibility(View.GONE);
-        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,18 +118,22 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Chats chat = dataSnapshot.getValue(Chats.class);
-                    if(chat.getSender().equals(userid) && chat.getReceiver().equals(firebaseUser.getUid())
-                            || chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(userid)){
+                    if(firebaseUser!=null){
+                        if(chat.getSender().equals(userid) && chat.getReceiver().equals(firebaseUser.getUid())
+                                || chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(userid)){
 
                             lastMess = chat.getMessage();
 
+                        }
                     }
+
                 }
                 switch (lastMess){
                     case "default":
                         lastmessage.setText("Không có tin nhắn");
                         break;
                     default:
+
                         lastmessage.setText(lastMess);
                         break;
                 }

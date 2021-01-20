@@ -267,5 +267,16 @@ public class PopupActivity extends Activity {
         reference.updateChildren(hashMap);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        status("online");
+
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
 }

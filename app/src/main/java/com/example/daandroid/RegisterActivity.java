@@ -32,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button btnRegister;
     private FirebaseAuth auth;
     private DatabaseReference reference;
+    private String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String txtEmail = email.getText().toString();
                 String txtPassword = password.getText().toString();
                 String txtRepassword = repassword.getText().toString();
-
+                status = "offline";
                 if(TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtUsername)  || TextUtils.isEmpty(txtPassword)  ){
                     Toast.makeText(RegisterActivity.this, "Vui lòng điền đầy đủ thông tin",Toast.LENGTH_SHORT).show();
                 }
@@ -81,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("id",userId);
                             hashMap.put("username",username);
                             hashMap.put("imageURL","default");
-
+                            hashMap.put("status",status);
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {

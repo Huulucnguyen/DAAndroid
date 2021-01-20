@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.daandroid.Model.Chats;
 import com.example.daandroid.Model.User;
 import com.example.daandroid.fragment.ChatsFragment;
 import com.example.daandroid.fragment.UserFragment;
@@ -53,10 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private CircleImageView profile_image;
     private TextView username;
     private FirebaseUser firebaseUser;
-    private DatabaseReference reference;
+    private DatabaseReference reference, reference_chat;
     private CircleImageView status_on;
     private CircleImageView status_off;
-
+    private TextView mess;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_picture);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String Uid = firebaseUser.getUid();
-        status("online");
+        mess =findViewById(R.id.lastmess);
+
         reference = FirebaseDatabase.getInstance().getReference("Users").child(Uid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -104,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         ViewPager viewPager = findViewById(R.id.view_pager);
+
+
+
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new ChatsFragment());
         viewPagerAdapter.addFragment(new UserFragment());
@@ -182,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void status(String status){
+
         reference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
         HashMap<String,Object> hashMap = new HashMap<>();
@@ -189,6 +195,14 @@ public class MainActivity extends AppCompatActivity {
         reference.updateChildren(hashMap);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+            status("online");
+
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -199,12 +213,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        status("offline");
+
+            status("offline");
+
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        status("offline");
-    }
+
 }
