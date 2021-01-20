@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,PopupActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-
             }
         });
 
@@ -201,4 +200,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         status("offline");
     }
+
+
 }

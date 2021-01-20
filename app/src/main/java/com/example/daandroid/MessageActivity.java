@@ -51,6 +51,8 @@ public class MessageActivity extends AppCompatActivity {
     private CircleImageView status_off;
     RecyclerView recyclerView;
     Intent intent;
+
+    ValueEventListener valueEventListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +124,8 @@ public class MessageActivity extends AppCompatActivity {
                     profile_image.setImageResource(R.drawable.resource_default);
                 }
                 else{
-                    Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
+                    if (!MessageActivity.this.isFinishing())
+                        Glide.with(MessageActivity.this).load(user.getImageURL()).into(profile_image);
                 }
                 readMessage(fUser.getUid(),user_id,user.getImageURL());
                 if(user.getStatus().equals("online")){
@@ -141,8 +144,30 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
+        seenMessage(user_id);
 }
 
+    private void seenMessage(String userid){
+        reference = FirebaseDatabase.getInstance().getReference("Chats");
+        valueEventListener = reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    Chats chat = dataSnapshot.getValue(Chats.class);
+                    if(chat.getSender().equals(userid) && chat.getReceiver().equals(fUser.getUid())){
+                        HashMap<String,Object> hashMap = new HashMap<>();
+                        hashMap.put("isseen",true);
+                        dataSnapshot.getRef().updateChildren(hashMap);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -158,6 +183,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("sender",sender);
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
+        hashMap.put("isseen",false);
         reference.child("Chats").push().setValue(hashMap);
     }
 
@@ -224,16 +250,5 @@ public class MessageActivity extends AppCompatActivity {
         reference.updateChildren(hashMap);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        status("online");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        status("offline");
-    }
 
 }

@@ -53,6 +53,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         else{
             Glide.with(context).load(imageUrl).into(holder.profile_image);
         }
+        if(position==aChats.size()-1){
+            if(chat.getIsseen())
+            {
+                holder.txt_seen.setText("Đã xem");
+            }
+            else{
+                holder.txt_seen.setText("Đã gửi");
+            }
+        }
+        else{
+            holder.txt_seen.setVisibility(View.GONE);
+        }
 
     }
 
@@ -65,15 +77,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.context = context;
         this.aChats= aUsers;
         this.imageUrl = image;
+
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView message;
         private CircleImageView profile_image;
+        public TextView txt_seen;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.message = itemView.findViewById(R.id.chat_view);
             this.profile_image = itemView.findViewById(R.id.friend_profile_picture);
+            this.txt_seen = itemView.findViewById(R.id.txtisseen);
 
         }
     }

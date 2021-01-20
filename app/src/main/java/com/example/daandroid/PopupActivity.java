@@ -108,7 +108,7 @@ public class PopupActivity extends Activity {
                 Intent intent = new Intent(PopupActivity.this,LoginActivity.class);
 
                 startActivity(intent);
-
+                finish();
             }
         });
         txtpopup.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +117,7 @@ public class PopupActivity extends Activity {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(PopupActivity.this,LoginActivity.class);
                 startActivity(intent);
-
+                finish();
             }
         });
 
