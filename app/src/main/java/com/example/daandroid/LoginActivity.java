@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextView linkREgister;
     private FirebaseUser firebaseUser;
-
+    private TextView linkReset;
     @Override
     protected void onStart() {
         super.onStart();
@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         password = findViewById(R.id.password);
+        linkReset = findViewById(R.id.linkreset);
         email = findViewById(R.id.email);
         btnLogin = findViewById(R.id.login);
         auth = FirebaseAuth.getInstance();
@@ -55,7 +56,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity((new Intent(LoginActivity.this,RegisterActivity.class)));
             }
         });
-
+        linkReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity((new Intent(LoginActivity.this,ResetPasswordActivity.class)));
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

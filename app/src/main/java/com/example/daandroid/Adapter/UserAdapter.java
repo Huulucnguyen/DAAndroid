@@ -14,15 +14,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.daandroid.MessageActivity;
+import com.example.daandroid.Model.Chats;
 import com.example.daandroid.Model.User;
 import com.example.daandroid.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.lang.ref.Reference;
+import java.util.HashMap;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private Context context;
     private List<User> aUsers;
     private boolean isOnl;
+    private String lastMess;
 
     @NonNull
     @Override
@@ -41,6 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         else{
             Glide.with(context).load(user.getImageURL()).into(holder.profile_image);
         }
+            lassMessage(user.getId(),holder.lastmessage);
         if(isOnl){
             if(user.getStatus().equals("online")){
                 holder.status_on.setVisibility(View.VISIBLE);
@@ -75,19 +87,55 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.context = context;
         this.aUsers = aUsers;
         this.isOnl = isOnl;
+
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView username;
         private ImageView profile_image;
         private ImageView status_on;
         private ImageView status_off;
+        private TextView lastmessage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.username = itemView.findViewById(R.id.friend_username);
             this.profile_image = itemView.findViewById(R.id.friend_image);
             this.status_on = itemView.findViewById(R.id.status_on);
+            this.lastmessage = itemView.findViewById(R.id.lastmess);
             this.status_off = itemView.findViewById(R.id.status_off);
         }
+    }
+    public void lassMessage(String userid, TextView lastmessage){
+        lastMess = "default";
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    Chats chat = dataSnapshot.getValue(Chats.class);
+                    if(chat.getSender().equals(userid) && chat.getReceiver().equals(firebaseUser.getUid())
+                            || chat.getSender().equals(firebaseUser.getUid()) && chat.getReceiver().equals(userid)){
+
+                            lastMess = chat.getMessage();
+
+                    }
+                }
+                switch (lastMess){
+                    case "default":
+                        lastmessage.setText("Không có tin nhắn");
+                        break;
+                    default:
+                        lastmessage.setText(lastMess);
+                        break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

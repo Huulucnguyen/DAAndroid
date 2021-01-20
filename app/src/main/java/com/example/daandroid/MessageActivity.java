@@ -42,11 +42,14 @@ public class MessageActivity extends AppCompatActivity {
     CircleImageView profile_image;
     TextView username;
     ImageButton btnsend ;
+    private int update = 0;
+    private boolean seen = false;
     DatabaseReference reference;
     EditText textsend;
     FirebaseUser fUser;
     MessageAdapter messageAdapter;
     List<Chats> lChats;
+
     private CircleImageView status_on;
     private CircleImageView status_off;
     RecyclerView recyclerView;
@@ -70,6 +73,7 @@ public class MessageActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         fUser = FirebaseAuth.getInstance().getCurrentUser();
+        status("online");
         String sender_id = fUser.getUid();
         profile_image = findViewById(R.id.mess_friend_picture);
         username = findViewById(R.id.mess_friend_username);
@@ -80,7 +84,7 @@ public class MessageActivity extends AppCompatActivity {
         String user_id = extra.getString("userid");
         status_on = findViewById(R.id.status_on);
         status_off = findViewById(R.id.status_off);
-
+        status("online");
         btnsend.setVisibility(View.GONE);
         TextWatcher edittext = new TextWatcher() {
             @Override
@@ -110,6 +114,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String message = textsend.getText().toString();
                 sendMessage(sender_id, user_id, message);
+
             }
         });
 
@@ -148,6 +153,7 @@ public class MessageActivity extends AppCompatActivity {
 }
 
     private void seenMessage(String userid){
+        seen = true;
         reference = FirebaseDatabase.getInstance().getReference("Chats");
         valueEventListener = reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -155,11 +161,15 @@ public class MessageActivity extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     Chats chat = dataSnapshot.getValue(Chats.class);
                     if(chat.getSender().equals(userid) && chat.getReceiver().equals(fUser.getUid())){
-                        HashMap<String,Object> hashMap = new HashMap<>();
-                        hashMap.put("isseen",true);
-                        dataSnapshot.getRef().updateChildren(hashMap);
+
+                            HashMap<String,Object> hashMap = new HashMap<>();
+                            hashMap.put("isseen",true);
+                            dataSnapshot.getRef().updateChildren(hashMap);
+
                     }
                 }
+
+
             }
 
             @Override
@@ -168,12 +178,16 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
-                finish();
+                if(update ==1 ){
+                    seen = false;
+
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -185,6 +199,7 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("receiver",receiver);
         hashMap.put("message",message);
         hashMap.put("isseen",false);
+        update = 1;
         reference.child("Chats").push().setValue(hashMap);
     }
 
@@ -244,12 +259,36 @@ public class MessageActivity extends AppCompatActivity {
 
     }
     private  void status(String status){
-        reference = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
 
-        HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("status",status);
-        reference.updateChildren(hashMap);
+            reference = FirebaseDatabase.getInstance().getReference("Users").child(fUser.getUid());
+
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("status",status);
+            reference.updateChildren(hashMap);
+
+
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        reference.removeEventListener(valueEventListener);
+        status("online");
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        reference.removeEventListener(valueEventListener);
+        status("online");
+
+    }
 }

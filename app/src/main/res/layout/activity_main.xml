@@ -59,7 +59,16 @@
                     android:textColor="@color/white"
                     android:text="Username"
                     android:layout_marginStart="10dp"/>
+                <ImageButton
 
+                    android:layout_width="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/add"
+                    android:id="@+id/btn_add"
+                    android:layout_height="50dp"/>
             </RelativeLayout>
 
 

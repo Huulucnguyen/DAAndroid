@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.profile_picture);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String Uid = firebaseUser.getUid();
+        status("online");
         reference = FirebaseDatabase.getInstance().getReference("Users").child(Uid);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -201,5 +202,9 @@ public class MainActivity extends AppCompatActivity {
         status("offline");
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        status("offline");
+    }
 }
